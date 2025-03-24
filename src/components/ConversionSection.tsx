@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, RefreshCw, Download } from 'lucide-react';
 import { toast } from 'sonner';
+import { convertKotlinToYaml } from '../services/conversionService';
 
 interface ConversionSectionProps {
   kotlinCode: string;
@@ -18,8 +19,7 @@ const ConversionSection: React.FC<ConversionSectionProps> = ({
   isConverting,
   setIsConverting 
 }) => {
-  // Mock conversion for now
-  const convertKotlinToYaml = async () => {
+  const handleConversion = async () => {
     if (!kotlinCode) {
       toast.error("Please upload a Kotlin file first");
       return;
@@ -27,35 +27,19 @@ const ConversionSection: React.FC<ConversionSectionProps> = ({
     
     setIsConverting(true);
     
-    // Simulate API call with timeout
     try {
-      // This would be replaced with actual API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await convertKotlinToYaml(kotlinCode);
       
-      // Mock converted YAML (for demonstration purposes)
-      const mockYaml = `name: GitHub Actions Workflow
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Build with Gradle
-        run: ./gradlew build`;
+      if (response.error) {
+        toast.error(response.error);
+        return;
+      }
       
-      setConvertedYaml(mockYaml);
+      setConvertedYaml(response.yaml);
       toast.success("Conversion completed successfully!");
     } catch (error) {
       toast.error("Failed to convert the file. Please try again.");
+      console.error(error);
     } finally {
       setIsConverting(false);
     }
@@ -84,7 +68,7 @@ jobs:
     <div className="w-full flex flex-col items-center space-y-6 animate-fade-in">
       <button
         className="glass-button py-3 px-6 rounded-full flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
-        onClick={convertKotlinToYaml}
+        onClick={handleConversion}
         disabled={!kotlinCode || isConverting}
       >
         {isConverting ? (
