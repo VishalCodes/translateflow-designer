@@ -37,10 +37,22 @@ export const convertKotlinToYaml = async (kotlinCode: string): Promise<Conversio
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Server response:', errorText);
+      throw new Error(`Server error: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
+    let data;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      // Handle non-JSON responses
+      const textResponse = await response.text();
+      console.error('Received non-JSON response:', textResponse);
+      throw new Error('Server returned an invalid response format. Expected JSON.');
+    }
+
     return { yaml: data.yaml };
   } catch (error) {
     console.error('Conversion error:', error);
