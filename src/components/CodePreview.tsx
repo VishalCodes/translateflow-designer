@@ -48,16 +48,17 @@ const CodePreview: React.FC<CodePreviewProps> = ({
           className="flex items-center justify-center p-1.5 rounded-md hover:bg-gray-200/80 transition-colors"
           onClick={copyToClipboard}
           aria-label="Copy code"
+          disabled={!code}
         >
           {copied ? (
             <Check className="h-4 w-4 text-green-500" />
           ) : (
-            <Clipboard className="h-4 w-4 text-gray-500" />
+            <Clipboard className={`h-4 w-4 ${code ? 'text-gray-500' : 'text-gray-300'}`} />
           )}
         </button>
       </div>
-      <div className="relative overflow-auto max-h-[400px] p-4">
-        <pre ref={preRef} className="text-sm font-mono whitespace-pre">
+      <div className="relative overflow-auto h-[450px] p-4">
+        <pre ref={preRef} className="text-sm font-mono whitespace-pre h-full">
           <code className={`language-${language}`}>{code || 'No code to display'}</code>
         </pre>
         {!code && (

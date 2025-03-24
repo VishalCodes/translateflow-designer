@@ -44,12 +44,18 @@ const Index = () => {
     });
   };
 
+  const handleClear = () => {
+    setKotlinCode('');
+    setFileName('');
+    setConvertedYaml('');
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center py-8 px-4 md:px-8 max-w-6xl mx-auto">
       <Header />
       
-      <main className="w-full mt-12 flex flex-col items-center space-y-10">
-        <section className="w-full max-w-2xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
+      <main className="w-full mt-12 flex flex-col items-center space-y-8">
+        <section className="w-full max-w-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
           <FileUploader onFileUpload={handleFileUpload} />
         </section>
         
@@ -61,12 +67,13 @@ const Index = () => {
                 code={kotlinCode} 
                 language="kotlin" 
                 title={fileName || "TeamCity Kotlin Configuration"} 
+                className="lg:min-h-[500px]"
               />
               <CodePreview 
                 code={convertedYaml} 
                 language="yaml" 
                 title="GitHub Actions YAML" 
-                className={convertedYaml ? 'opacity-100' : 'opacity-70'}
+                className={`lg:min-h-[500px] ${convertedYaml ? 'opacity-100' : 'opacity-70'}`}
               />
             </section>
             
@@ -76,6 +83,7 @@ const Index = () => {
               setConvertedYaml={setConvertedYaml}
               isConverting={isConverting}
               setIsConverting={setIsConverting}
+              onClear={handleClear}
             />
           </>
         )}

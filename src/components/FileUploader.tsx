@@ -48,7 +48,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileUpload }) => {
   
   return (
     <div
-      className={`relative w-full h-64 border-2 border-dashed rounded-xl transition-all duration-200 
+      className={`relative w-full h-48 border-2 border-dashed rounded-xl transition-all duration-200 
         ${isDragging ? 'border-primary bg-primary/5' : 'border-gray-300 bg-gray-50/50'}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -67,10 +67,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileUpload }) => {
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
           <UploadCloud 
-            className={`w-12 h-12 mb-3 transition-all duration-200 
+            className={`w-10 h-10 mb-2 transition-all duration-200 
               ${isDragging ? 'text-primary' : 'text-gray-400'}`} 
           />
-          <p className="mb-2 text-sm font-semibold">
+          <p className="mb-1 text-sm font-semibold">
             <span className="font-medium text-primary">Click to upload</span> or drag and drop
           </p>
           <p className="text-xs text-gray-500">TeamCity Kotlin files (.kt or .kts)</p>
