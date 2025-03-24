@@ -1,9 +1,9 @@
-
 /**
  * Service for converting Kotlin code to YAML via the OpenAI API
  */
 
-const API_URL = '/api/convert'; // This would point to your Python backend
+// Update this URL to point to your Python backend
+const API_URL = 'http://localhost:5000/api/convert'; 
 
 interface ConversionResponse {
   yaml: string;
